@@ -142,16 +142,16 @@ $server->wsdl->addComplexType(
 	'ImagesArray',
 	'complexType',
 	'array',
-	'sequence',
 	'',
-	array(
-		'image' => array(
-		'name' => 'image',
-		'type' => 'tns:image',
-		'minOccurs' => '0',
-		'maxOccurs' => 'unbounded'
-		)
-	)
+	'SOAP-ENC:Array',
+   array(),              // elements
+   array(                // attributes
+      array(
+        'ref'=>'SOAP-ENC:arrayType',
+        'wsdl:arrayType'=>'tns:image[]'
+      )
+    ),      // attribs
+    "tns:image"        // arrayType
 );
 
 /*
@@ -187,7 +187,7 @@ $server->wsdl->addComplexType(
     )
 );
 
-/*$server->wsdl->addComplexType(
+$server->wsdl->addComplexType(
     'ProductsArray',
     'complexType',
     'array',
@@ -198,21 +198,6 @@ $server->wsdl->addComplexType(
         array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'tns:product[]')
     ),
     'tns:product'
-);*/
-$server->wsdl->addComplexType(
-    'ProductsArray2',
-    'complexType',
-    'array',
-    'sequence',
-    '',
-    array(
-        'product' => array(
-            'name' => 'product',
-            'type' => 'tns:product',
-            'minOccurs' => '0',
-            'maxOccurs' => 'unbounded'
-        )
-    )
 );
 
 
@@ -259,7 +244,7 @@ $server->register(
     // Entry values
     array('authentication'=>'tns:authentication','filterproduct'=>'tns:filterproduct'),
     // Exit values
-    array('result'=>'tns:result','products'=>'tns:ProductsArray2'),
+    array('result'=>'tns:result','products'=>'tns:ProductsArray'),
     $ns,
     $ns.'#getListOfProductsOrServices',
     $styledoc,
@@ -273,7 +258,7 @@ $server->register(
 	// Entry values
 	array('authentication'=>'tns:authentication','id'=>'xsd:string'),
 	// Exit values
-	array('result'=>'tns:result','products'=>'tns:ProductsArray2'),
+	array('result'=>'tns:result','products'=>'tns:ProductsArray'),
 	$ns,
 	$ns.'#getProductsForCategory',
 	$styledoc,
